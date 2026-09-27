@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Wizard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-group">
+        <span class="wand-icon">✨</span>
+        <h1 class="app-title">Reading Wizard</h1>
+      </div>
+      <div class="header-controls">
+        <button id="soundToggleBtn" class="icon-btn" aria-label="Toggle Sound">🔊</button>
+        <button id="homeBtn" class="icon-btn hidden" aria-label="Change Word">🏠</button>
+      </div>
+    </header>
+
+    <section id="loadingScreen" class="loading-screen">
+      <div class="card loading-card">
+        <span class="loading-wand">✨</span>
+        <h2 class="loading-heading">Loading App...</h2>
+        <div class="spinner"></div>
+        <div class="loading-progress-bar-bg">
+          <div id="loadingProgressBar" class="loading-progress-bar"></div>
+        </div>
+        <p id="loadingStatusText" class="loading-status-text">Getting ready...</p>
+        <button type="button" id="skipLoadingBtn" class="skip-loading-btn">Skip to App &rarr;</button>
+      </div>
+    </section>
+
+    <main id="mainContent">
+      <section id="setupView" class="view-panel hidden">
+        <div class="card setup-card">
+          <div class="setup-header-row">
+            <h2 class="setup-heading">What word did she say?</h2>
+            <button id="speakSetupBtn" class="speak-directions-btn" type="button">🔊 Read Directions</button>
+          </div>
+          <p class="setup-subhead">Say the word into the microphone, or type it below.</p>
+          
+          <div class="voice-input-section">
+            <button type="button" id="micBtn" class="mic-btn">
+              <span class="mic-icon">🎤</span>
+              <span id="micBtnText">Tap to Say Word</span>
+            </button>
+            <button type="button" id="alwaysAllowMicBtn" class="always-allow-mic-btn">
+              <span class="mic-lock-icon">🎙️</span>
+              <span id="alwaysAllowMicText">Always Allow Microphone</span>
+            </button>
+            <p id="micStatus" class="mic-status hidden"></p>
+          </div>
+
+          <div class="divider-row">
+            <span class="divider-line"></span>
+            <span class="divider-text">OR TYPE IT</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <form id="wordForm" class="word-form">
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="targetWordInput" 
+                class="word-input" 
+                placeholder="e.g. siren" 
+                autocomplete="off" 
+                autofocus
+                required 
+              />
+              <button type="submit" class="primary-btn start-btn">Start Wizard 🚀</button>
+            </div>
+            <div class="form-actions-row">
+              <button type="button" id="teachTypeBtn" class="secondary-btn">Teach Typing ⌨️</button>
+            </div>
+            <p id="inputError" class="input-error hidden"></p>
+          </form>
+
+          <div class="quick-words-group">
+            <span class="quick-label">Or pick a word:</span>
+            <div class="quick-word-chips">
+              <button type="button" class="chip-btn" data-word="siren">siren</button>
+              <button type="button" class="chip-btn" data-word="cat">cat</button>
+              <button type="button" class="chip-btn" data-word="sun">sun</button>
+              <button type="button" class="chip-btn" data-word="truck">truck</button>
+              <button type="button" class="chip-btn" data-word="puppy">puppy</button>
+              <button type="button" class="chip-btn" data-word="dinosaur">dinosaur</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="typingView" class="view-panel hidden">
+        <div class="card typing-card">
+          <div class="typing-top-row">
+            <span class="round-badge">Typing Guide</span>
+            <button id="speakTypingBtn" class="speak-directions-btn" type="button">🔊 Read Directions</button>
+          </div>
+
+          <h2 id="typingHeading" class="typing-heading">Let's type SIREN!</h2>
+          <p id="typingKeyPrompt" class="typing-key-prompt">Find and press the letter <strong>S</strong></p>
+
+          <div id="typingBoxes" class="typing-boxes"></div>
+
+          <div class="keyboard-container">
+            <div id="virtualKeyboard" class="virtual-keyboard"></div>
+          </div>
+
+          <div class="typing-footer">
+            <button type="button" id="skipTypingBtn" class="skip-btn">Skip to Wizard 🚀</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="gameView" class="view-panel hidden">
+        <div class="progress-bar-container">
+          <div class="round-stepper">
+            <div id="stepDot1" class="step-dot active">1</div>
+            <div class="step-connector"></div>
+            <div id="stepDot2" class="step-dot">2</div>
+            <div class="step-connector"></div>
+            <div id="stepDot3" class="step-dot">3</div>
+          </div>
+          <span id="roundIndicator" class="round-indicator">Round 1 of 3</span>
+        </div>
+
+        <div class="instruction-box">
+          <div class="instruction-top">
+            <span id="roundBadge" class="round-badge">Round 1: First Letter</span>
+            <button id="speakDirectionsBtn" class="speak-directions-btn" type="button">🔊 Read Directions</button>
+            <button id="speakTargetBtn" class="speak-btn" aria-label="Listen to word">Hear Word</button>
+          </div>
+          <h2 id="mainInstruction" class="main-instruction">Which word starts with S?</h2>
+          <p id="subInstruction" class="sub-instruction">Listen for the starting sound.</p>
+        </div>
+
+        <div id="cardsGrid" class="cards-grid">
+          <button class="word-card" data-index="0" id="card0"></button>
+          <button class="word-card" data-index="1" id="card1"></button>
+          <button class="word-card" data-index="2" id="card2"></button>
+        </div>
+
+        <div class="game-footer">
+          <button id="hintBtn" class="hint-btn">💡 Need a Hint?</button>
+          <div id="hintMessage" class="hint-message hidden"></div>
+        </div>
+      </section>
+
+      <section id="winView" class="view-panel hidden">
+        <div class="card win-card">
+          <div class="win-stars">🌟 ⭐ 🌟</div>
+          <h2 class="win-title">You Read It!</h2>
+          <div id="winWordDisplay" class="win-word">SIREN</div>
+          <p class="win-subhead">Super job sounding out each letter!</p>
+          <button id="playAgainBtn" class="primary-btn play-again-btn">Read Another Word ✨</button>
+        </div>
+        <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+      </section>
+    </main>
+  </div>
+
+  <script src="words.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
